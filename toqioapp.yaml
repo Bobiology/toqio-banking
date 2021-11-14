@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: toqioapp-deployment
+  labels:
+    app: toqioapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: toqioapp
+  template:
+    metadata:
+      labels:
+        app: toqioapp
+    spec:
+      containers:
+      - name: toqioapp
+        image: bobiologist/toqio-banking:latest
+        ports:
+        - containerPort: 8087
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: toqioapp-service
+spec:
+  selector:
+    app: toqioapp
+  ports:
+    - protocol: TCP
+      port: 8087
+      targetPort: 8087
